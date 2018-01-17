@@ -85,7 +85,7 @@
                       </div>
                       <div class="detail">
                         <div class="title">{{list.name}}</div>
-                        <div class="price">￥{{list.price|number}}</div>
+                        <div class="price">￥{{list.price|currency}}</div>
                         <div class="recommend">
                           <span>推荐值:</span>
                           <span>{{list.recommend}}</span>
@@ -191,19 +191,17 @@
             <ul class="category-content">
               <li class="category-item js-category-item"
                   data-item-id="85" :data-item-name="list.name"
-                  v-for="list in subData.brandList">
+                  v-for="list in subData.brandList"
+                  @click="toSearch(list)">
                 <img :src="list.image" :alt="list.name" class="category-img">
                 <span class="category-item-name">{{list.name}}</span>
               </li>
             </ul>
             <h3 class="category-title"> 热门分类 </h3>
             <ul class="category-content">
-              <li class="category-item js-category-item" data-item-id="10" data-item-name="水果">
-                <img
-                  src="https://img.yzcdn.cn/upload_files/2015/12/28/Fk8hpTtgWFr_q7FCCGdzqXsOkYms.jpg?imageView2/2/w/120/h/0/q/75/format/jpg"
-                  alt="水果" class="category-img">
-                <span class="category-item-name">
-                水果            </span>
+              <li class="category-item js-category-item" data-item-id="10" data-item-name="水果" @click="toSearch(list)">
+                <img src="https://img.yzcdn.cn/upload_files/2015/12/28/Fk8hpTtgWFr_q7FCCGdzqXsOkYms.jpg?imageView2/2/w/120/h/0/q/75/format/jpg" alt="水果" class="category-img">
+                <span class="category-item-name">水果</span>
               </li>
               <li class="category-item js-category-item" data-item-id="835" data-item-name="生鲜">
                 <img
