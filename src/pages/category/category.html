@@ -60,7 +60,8 @@
                 :data-cid="list.id"
                 v-for="(list,index) in topLists"
                 @click="getSubList(index,list.id)"
-            >{{list.name}}</li>
+            >{{list.name}}
+            </li>
           </ul>
         </div>
       </div>
@@ -76,8 +77,7 @@
                 </div>
                 <ul>
                   <li class="goods-item" v-for="(list,index) in rankData.hotGoods">
-                    <a
-                      href="https://h5.youzan.com/v2/showcase/goods?alias=27cjv5wdsb4to&amp;source=yzapp&amp;f_platform=yzapp">
+                    <a :href="'goods.html?id='+list.id">
                       <div class="thumb badge center-img">
                         <img
                           :src="list.image">
@@ -200,7 +200,9 @@
             <h3 class="category-title"> 热门分类 </h3>
             <ul class="category-content">
               <li class="category-item js-category-item" data-item-id="10" data-item-name="水果" @click="toSearch(list)">
-                <img src="https://img.yzcdn.cn/upload_files/2015/12/28/Fk8hpTtgWFr_q7FCCGdzqXsOkYms.jpg?imageView2/2/w/120/h/0/q/75/format/jpg" alt="水果" class="category-img">
+                <img
+                  src="https://img.yzcdn.cn/upload_files/2015/12/28/Fk8hpTtgWFr_q7FCCGdzqXsOkYms.jpg?imageView2/2/w/120/h/0/q/75/format/jpg"
+                  alt="水果" class="category-img">
                 <span class="category-item-name">水果</span>
               </li>
               <li class="category-item js-category-item" data-item-id="835" data-item-name="生鲜">
