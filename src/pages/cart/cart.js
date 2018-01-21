@@ -62,6 +62,8 @@ new Vue({
     },
     selectAll(){
       console.log(this.allSelected)
+      console.log(11111111)
+      console.log(22222222)
       this.allSelected = !this.allSelected
     }
   },
