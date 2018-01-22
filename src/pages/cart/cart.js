@@ -10,7 +10,10 @@ import mixin from 'js/mixin.js'
 new Vue({
   el: '.container',
   data: {
-    lists: null
+    lists: null,
+    total: 0,
+    editingShop: null,
+    editingShopIndex: -1
   },
   computed: {
     allSelected: {
@@ -23,13 +26,49 @@ new Vue({
         return true
       },
       set(newVal) {
-        this.lists.forEach(shop=>{
-          shop.checked=newVal
-          shop.goodsList.forEach(good=>{
-            good.checked=newVal
+        this.lists.forEach(shop => {
+          shop.checked = newVal
+          shop.goodsList.forEach(good => {
+            good.checked = newVal
           })
         })
       }
+    },
+    allRemoveSelected: {
+      get() {
+        if(this.editingShop){
+          return this.editingShop.removeChecked
+        }
+        return false
+      },
+      set(newVal) {
+        if(this.editingShop){
+          this.editingShop.removeChecked = newVal
+          this.editingShop.goodsList.forEach(good=>{
+            good.removeChecked = newVal
+          })
+        }
+      }
+    },
+    selectLists() {
+      if (this.lists && this.lists.length) {
+        let arr = []
+        let total = 0
+        this.lists.forEach(shop => {
+          shop.goodsList.forEach(good => {
+            if (good.checked) {
+              arr.push(good)
+              total += good.price * good.number
+            }
+          })
+        })
+        this.total = total
+        return arr
+      }
+      return []
+    },
+    removeLists() {
+
     }
   },
   created() {
@@ -41,30 +80,46 @@ new Vue({
         let lists = res.data.cartList
         lists.forEach(shop => {
           shop.checked = true
+          shop.editing = false
+          shop.editingMsg = '编辑'
+          shop.removeChecked = false
           shop.goodsList.forEach(good => {
             good.checked = true
+            good.removeChecked = false
           })
         })
         this.lists = lists
       })
     },
     selectGood(shop, good) {
-      good.checked = !good.checked
-      shop.checked = shop.goodsList.every(good => {
-        return good.checked
+      let attr = this.editingShop ? 'removeChecked' : 'checked'
+      good[attr] = !good[attr]
+      shop[attr] = shop.goodsList.every(good => {
+        return good[attr]
       })
     },
-    selectShop(shop){
-      shop.checked = !shop.checked
-      shop.goodsList.forEach(good=>{
-        good.checked = shop.checked
+    selectShop(shop) {
+      let attr = this.editingShop ? 'removeChecked' : 'checked'
+      shop[attr] = !shop[attr]
+      shop.goodsList.forEach(good => {
+        good[attr] = shop[attr]
       })
     },
-    selectAll(){
-      console.log(this.allSelected)
-      console.log(11111111)
-      console.log(22222222)
-      this.allSelected = !this.allSelected
+    selectAll() {
+      let attr = this.editingShop ? 'allRemoveSelected' : 'allSelected'
+      this[attr] = !this[attr]
+    },
+    edit(shop, shopIndex) {
+      shop.editing = !shop.editing
+      shop.editingMsg = shop.editing ? '完成' : '编辑'
+      this.lists.forEach((item, i) => {
+        if (shopIndex !== i) {
+          item.editing = false
+          item.editingMsg = shop.editing ? '' : '编辑'
+        }
+      })
+      this.editingShop = shop.editing ? shop : null
+      this.editingShopIndex = shop.editing ? shopIndex : -1
     }
   },
   mixins: [mixin]
