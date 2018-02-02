@@ -6,6 +6,8 @@ import Vue from 'vue'
 import axios from 'axios'
 import url from 'js/api.js'
 import mixin from 'js/mixin.js'
+import Volecity from 'velocity-animate'
+import Cart from 'js/cartService.js'
 
 new Vue({
   el: '.container',
@@ -141,6 +143,9 @@ new Vue({
       }).then(res => {
         good.number--
       })
+      // Cart.reduce(good.id).then(res=>{
+      //   good.number--
+      // })
     },
     add(good) {
       axios.post(url.addCart, {
@@ -149,6 +154,9 @@ new Vue({
       }).then(res => {
         good.number++
       })
+      // Cart.add(good.id).then(res=>{
+      //   good.number++
+      // })
     },
     remove(shop, shopIndex, good, goodIndex) {
       this.removePopup = true
@@ -212,6 +220,16 @@ new Vue({
     },
     end(e, shopIndex, good, goodIndex) {
       let endX = e.changedTouches[0].clientX
+      let left = '0'
+      if (good.startX - endX > 100) {
+        left = '-60px'
+      }
+      if (endX - good.startX > 100) {
+        left = '0px'
+      }
+      Volecity(this.$refs[`goods-${shopIndex}-${goodIndex}`], {
+        left
+      })
     }
   },
   mixins: [mixin]

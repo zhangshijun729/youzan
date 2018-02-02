@@ -1075,6 +1075,7 @@ only screen and (min-device-pixel-ratio:1.5) {
 }
 
 .keywords-list {
+  margin-bottom: 30px;
   padding-bottom: 20px
 }
 
